@@ -1,24 +1,44 @@
 #!/bin/bash -x
 
-H=0
-T=0
 
-declare -A coinflip
-
-for (( i=1; i<=10; i++ ))
-do	
-  
-			flip=$((RANDOM%2))
-	if [ $flip -eq 1 ]
-
-				 then coinflip[Heads]=$((++H))
-
-			else coinflip[Tails]=$((++T))
-	fi
+for ((i=1; i<=10; i++))
+do
+	A=$((RANDOM%2))
+	B=$((RANDOM%2))
+HH=0
+TT=0
+TH=0
+HT=0
+num=$(($A*10+$B))
+result[$i]=$num
 done
 
-headsperc=$(( $(( $H*10)) ))
-tailsperc=$(( $(( $T*10)) ))
 
-echo "Count of Heads is = $H & Percentage is = $headsperc"
-echo "Count of Tails is = $T & Percentage is = $tailsperc"
+for ((i=1; i<=10; i++))
+do
+	if [ ${result[$i]} -eq 0 ]
+		then
+		side[$i]=HH
+		((HH++))
+
+			elif [ ${result[$i]} -eq 1 ]
+				then
+					side[$i]=TT
+						((TT++))
+
+			elif [ ${result[$i]} -eq 10 ]
+				then
+					side[$i]=TH
+						((TH++))
+
+			elif [ ${result[$i]} -eq 11 ]
+				then
+					side[$i]=HT
+						((HT++))
+	fi
+done
+echo ${side[@]}
+echo "Percentage of HH = $(($HH*10))%"
+echo "Percentage of HT = $(($HT*10))%"
+echo "Percentage of TH = $(($TH*10))%"
+echo "Percentage of TT= $(($TT*10))%"
